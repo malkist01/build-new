@@ -1,13 +1,9 @@
-name: Build MikaKernel
+name: Build
 
 
 on:
   workflow_dispatch:
-
- env:
-  TZ: Asia/Jakarta 
-
-
+  
 jobs:
   build-kernel:
     runs-on: ubuntu-latest
@@ -34,6 +30,7 @@ jobs:
 
       - name: Build kernel
         run: |
+          TZ=Asia/Jakarta
           export KBUILD_BUILD_USER="malkist"
           export KBUILD_BUILD_HOST="workspace"
           export PATH=$GITHUB_WORKSPACE/clang/bin:${PATH}
