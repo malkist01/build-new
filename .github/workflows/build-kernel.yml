@@ -73,3 +73,8 @@ jobs:
         with:
           name: output_kernel
           path: AnyKernel3/*
+          
+      - name: Upload Telegram
+        run: |
+          wget https://raw.githubusercontent.com/malkist01/Teletubies-compiler/master/upload.sh
+          bash upload.sh
