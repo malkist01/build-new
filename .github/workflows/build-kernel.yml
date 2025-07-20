@@ -42,6 +42,8 @@ jobs:
 
       - name: Build kernel
         run: |
+          export chat_id=${my_id}
+          export token=${nToken}
           export KBUILD_BUILD_USER="malkist"
           export KBUILD_BUILD_HOST="android"
           export PATH=$GITHUB_WORKSPACE/clang/bin:${PATH}
@@ -60,7 +62,7 @@ jobs:
           git clone --depth=1 ${{ env.ANYKERNEL_SOURCE }} -b ${{ env.ANYKERNEL_SOURCE_BRANCH }} AnyKernel3 && rm -rf AnyKernel3/.git AnyKernel3/.github AnyKernel3/LICENSE AnyKernel3/README.md
 
           if [[ -f out/arch/arm64/boot/Image.gz-dtb ]]; then
-            curl -fsSL -X POST https://api.telegram.org/bot<token>/sendDocument -F chat_id=<chat_id> -F document=@"./out/arch/arm64/boot/Image.gz-dtb" -F caption="4.9-Kernel"
+            curl -fsSL -X POST https://api.telegram.org/bot$token/sendDocument -F chat_id="$chat_id" -F document=@"./out/arch/arm64/boot/Image.gz-dtb" -F caption="4.9-Kernel"
           fi
 
           if [[ -f out/arch/arm64/boot/Image.gz-dtb ]]; then
