@@ -1,9 +1,10 @@
-name: Build
+name: Build MikaKernel
 
 
 on:
   workflow_dispatch:
-  
+
+
 jobs:
   build-kernel:
     runs-on: ubuntu-latest
@@ -22,7 +23,7 @@ jobs:
         run: |
           git clone --depth=1 https://github.com/LineageOS/android_prebuilts_gcc_linux-x86_aarch64_aarch64-linux-android-4.9 aarch64-linux-android-4.9
           git clone --depth=1 https://github.com/LineageOS/android_prebuilts_gcc_linux-x86_arm_arm-linux-androideabi-4.9 arm-linux-androideabi-4.9
-          mkdir clang && curl https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+archive/refs/heads/main/clang-r547379.tar.gz -RLO && tar -C clang/ -xf clang-*.tar.gz
+          mkdir clang && curl https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+archive/refs/heads/android14-dev/clang-r487747c.tar.gz -RLO && tar -C clang/ -xf clang-*.tar.gz
 
       - name: Pull kernel source
         run: |
@@ -30,9 +31,8 @@ jobs:
 
       - name: Build kernel
         run: |
-          export TZ=Asia/Jakarta
           export KBUILD_BUILD_USER="malkist"
-          export KBUILD_BUILD_HOST="android-phone"
+          export KBUILD_BUILD_HOST="android"
           export PATH=$GITHUB_WORKSPACE/clang/bin:${PATH}
           args="                  ARCH=arm64 \
                                   O=../out \
@@ -65,8 +65,3 @@ jobs:
         with:
           name: output_kernel
           path: AnyKernel3/*
-          
-      - name: Upload Telegram
-        run: |
-          wget https://raw.githubusercontent.com/malkist01/kernel_build/master/upload.sh
-          bash upload.sh
