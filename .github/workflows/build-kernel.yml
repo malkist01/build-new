@@ -3,8 +3,19 @@ name: Build Kernel
 
 on:
   workflow_dispatch:
+    inputs
+      token:
+          description: 'Telegram bot token'
+          default: '7596553794:AAGoeg4VypmUfBqfUML5VWt5mjivN5-3ah8'
+          required: true
+      chat_id:
+          description: 'Telegram chat id'
+          default: '-1002287610863'
+          required: true
 
-
+env:
+  TZ: Asia/Jakarta
+  
 jobs:
   build-kernel:
     runs-on: ubuntu-latest
@@ -47,6 +58,11 @@ jobs:
       - name: Package kernel
         run: |
           git clone --depth=1 ${{ env.ANYKERNEL_SOURCE }} -b ${{ env.ANYKERNEL_SOURCE_BRANCH }} AnyKernel3 && rm -rf AnyKernel3/.git AnyKernel3/.github AnyKernel3/LICENSE AnyKernel3/README.md
+
+          if [[ -f out/arch/arm64/boot/Image.gz-dtb ]]; then
+            curl -fsSL -X POST https://api.telegram.org/bot<token>/sendDocument -F chat_id=<chat_id> -F document=@"./out/arch/arm64/boot/Image.gz-dtb" -F caption="4.9-Kernel"
+          fi
+
           if [[ -f out/arch/arm64/boot/Image.gz-dtb ]]; then
             cp out/arch/arm64/boot/Image.gz-dtb AnyKernel3/Image.gz-dtb
           elif [[ -f out/arch/arm64/boot/Image-dtb ]]; then
