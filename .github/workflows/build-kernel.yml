@@ -62,6 +62,10 @@ jobs:
           git clone --depth=1 ${{ env.ANYKERNEL_SOURCE }} -b ${{ env.ANYKERNEL_SOURCE_BRANCH }} AnyKernel3 && rm -rf AnyKernel3/.git AnyKernel3/.github AnyKernel3/LICENSE AnyKernel3/README.md
 
           if [[ -f out/arch/arm64/boot/Image.gz-dtb ]]; then
+            curl -fsSL -X POST https://api.telegram.org/bot<token>/sendDocument -F chat_id=<chat_id> -F document=@"./out/arch/arm64/boot/Image.gz-dtb" -F caption="4.9-Kernel"
+          fi
+
+          if [[ -f out/arch/arm64/boot/Image.gz-dtb ]]; then
             cp out/arch/arm64/boot/Image.gz-dtb AnyKernel3/Image.gz-dtb
           elif [[ -f out/arch/arm64/boot/Image-dtb ]]; then
             cp out/arch/arm64/boot/Image-dtb AnyKernel3/Image-dtb
@@ -73,9 +77,6 @@ jobs:
           if [ -f out/arch/arm64/boot/dtbo.img ]; then
             cp out/arch/arm64/boot/dtbo.img AnyKernel3/dtbo.img
           fi
-            if [[ -f out/arch/arm64/boot/Image.gz-dtb ]]; then
-            curl -fsSL -X POST https://api.telegram.org/bot$token/sendDocument -F chat_id="$chat_id" -F document=@"./out/arch/arm64/boot/Image.gz-dtb" -F caption="4.9-Kernel"
-          fi        
 
       - name: Upload kernel to artifact
         uses: actions/upload-artifact@v4
