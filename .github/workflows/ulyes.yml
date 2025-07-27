@@ -1,4 +1,4 @@
-name: Build ulyes
+name: Build santoni
 
 
 on:
@@ -11,12 +11,12 @@ jobs:
       - uses: actions/checkout@v4
       - name: Setup environment
         run: |
-          echo "ANYKERNEL_SOURCE=$(cat ulyes.env | grep -w "ANYKERNEL_SOURCE" | head -n 1 | cut -d "=" -f 2)" >> $GITHUB_ENV
-          echo "ANYKERNEL_SOURCE_BRANCH=$(cat ulyes.env | grep -w "ANYKERNEL_SOURCE_BRANCH" | head -n 1 | cut -d "=" -f 2)" >> $GITHUB_ENV
-          echo "KERNEL_SOURCE=$(cat ulyes.env | grep -w "KERNEL_SOURCE" | head -n 1 | cut -d "=" -f 2)" >> $GITHUB_ENV
-          echo "KERNEL_SOURCE_BRANCH=$(cat ulyes.env | grep -w "KERNEL_SOURCE_BRANCH" | head -n 1 | cut -d "=" -f 2)" >> $GITHUB_ENV
-          echo "KERNEL_CONFIG=$(cat ulyes.env | grep -w "KERNEL_CONFIG" | head -n 1 | cut -d "=" -f 2)" >> $GITHUB_ENV
-          echo "BUILD_ARGS=$(cat ulyes.env | grep -w "BUILD_ARGS" | head -n 1 | cut -d ":" -f 2)" >> $GITHUB_ENV
+          echo "ANYKERNEL_SOURCE=$(cat santoni.env | grep -w "ANYKERNEL_SOURCE" | head -n 1 | cut -d "=" -f 2)" >> $GITHUB_ENV
+          echo "ANYKERNEL_SOURCE_BRANCH=$(cat santoni.env | grep -w "ANYKERNEL_SOURCE_BRANCH" | head -n 1 | cut -d "=" -f 2)" >> $GITHUB_ENV
+          echo "KERNEL_SOURCE=$(cat santoni.env | grep -w "KERNEL_SOURCE" | head -n 1 | cut -d "=" -f 2)" >> $GITHUB_ENV
+          echo "KERNEL_SOURCE_BRANCH=$(cat santoni.env | grep -w "KERNEL_SOURCE_BRANCH" | head -n 1 | cut -d "=" -f 2)" >> $GITHUB_ENV
+          echo "KERNEL_CONFIG=$(cat santoni.env | grep -w "KERNEL_CONFIG" | head -n 1 | cut -d "=" -f 2)" >> $GITHUB_ENV
+          echo "BUILD_ARGS=$(cat santoni.env | grep -w "BUILD_ARGS" | head -n 1 | cut -d ":" -f 2)" >> $GITHUB_ENV
 
       - name: Pull toolchain
         run: |
@@ -32,7 +32,7 @@ jobs:
         run: |
           export TZ=Asia/Jakarta
           export KBUILD_BUILD_USER="malkist"
-          export KBUILD_BUILD_HOST="android-phone"
+          export KBUILD_BUILD_HOST="android"
           export PATH=$GITHUB_WORKSPACE/clang/bin:${PATH}
           args="                  ARCH=arm64 \
                                   O=../out \
